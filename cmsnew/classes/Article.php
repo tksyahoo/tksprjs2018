@@ -32,6 +32,7 @@ class Article
   * @var string The HTML content of the article
   */
   public $content = null;
+  public $myimage = null;
 
 
   /**
@@ -46,6 +47,7 @@ class Article
     if ( isset( $data['title'] ) ) $this->title = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['title'] );
     if ( isset( $data['summary'] ) ) $this->summary = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['summary'] );
     if ( isset( $data['content'] ) ) $this->content = $data['content'];
+    if ( isset( $data['myimage'] ) ) $this->myimage = $data['myimage'];
   }
 
 
@@ -56,7 +58,7 @@ class Article
   */
 
   public function storeFormValues ( $params ) {
-
+//print_r($params);die;
     // Store all the parameters
     $this->__construct( $params );
 
@@ -133,18 +135,19 @@ class Article
   */
 
   public function insert() {
-
+//var_dump($_POST['image']);die;
     // Does the Article object already have an ID?
     if ( !is_null( $this->id ) ) trigger_error ( "Article::insert(): Attempt to insert an Article object that already has its ID property set (to $this->id).", E_USER_ERROR );
 
     // Insert the Article
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "INSERT INTO articles ( publicationDate, title, summary, content ) VALUES ( FROM_UNIXTIME(:publicationDate), :title, :summary, :content )";
+    $sql = "INSERT INTO articles ( publicationDate, title, summary, content,myimage ) VALUES ( FROM_UNIXTIME(:publicationDate), :title, :summary, :content ,:myimage)";
     $st = $conn->prepare ( $sql );
     $st->bindValue( ":publicationDate", $this->publicationDate, PDO::PARAM_INT );
     $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
     $st->bindValue( ":summary", $this->summary, PDO::PARAM_STR );
     $st->bindValue( ":content", $this->content, PDO::PARAM_STR );
+    $st->bindValue( ":myimage", $this->myimage, PDO::PARAM_STR );
     $st->execute();
     $this->id = $conn->lastInsertId();
     $conn = null;
@@ -162,13 +165,14 @@ class Article
    
     // Update the Article
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "UPDATE articles SET publicationDate=FROM_UNIXTIME(:publicationDate), title=:title, summary=:summary, content=:content WHERE id = :id";
+    $sql = "UPDATE articles SET publicationDate=FROM_UNIXTIME(:publicationDate), title=:title, summary=:summary, content=:content,myimage=:myimage WHERE id = :id";
     $st = $conn->prepare ( $sql );
     $st->bindValue( ":publicationDate", $this->publicationDate, PDO::PARAM_INT );
     $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
     $st->bindValue( ":summary", $this->summary, PDO::PARAM_STR );
     $st->bindValue( ":content", $this->content, PDO::PARAM_STR );
     $st->bindValue( ":id", $this->id, PDO::PARAM_INT );
+    $st->bindValue( ":myimage", $this->myimage, PDO::PARAM_STR );
     $st->execute();
     $conn = null;
   }

@@ -1,4 +1,7 @@
-<?php include "templates/include/header.php" ?>
+<?php include "templates/include/header.php" ;
+print_r($results['article']);
+echo "end<br>";   
+?>
 <div class="container">
 
       <div class="row">
@@ -12,7 +15,7 @@
 
       <h1><?php echo $results['pageTitle']?></h1>
 
-      <form action="admin.php?action=<?php echo $results['formAction']?>" method="post">
+      <form action="admin.php?action=<?php echo $results['formAction']?>" method="post" enctype="multipart/form-data">
         <input type="hidden" name="articleId" value="<?php echo $results['article']->id ?>"/>
 
 <?php if ( isset( $results['errorMessage'] ) ) { ?>
@@ -30,6 +33,10 @@
   <div class="form-group">
      <label for="content">Article Content</label>
     <textarea name="content" id="content" placeholder="The HTML content of the article" required maxlength="100000" class="form-control"><?php echo htmlspecialchars( $results['article']->content )?></textarea>
+  </div>
+  <div class="form-group">
+     <label for="myimage">Article Image</label>
+    <input type="file" name="myimage" id="image" class="form-control" value="<?php echo htmlspecialchars( $results['article']->myimage )?>">
   </div>
 <div class="form-group">
 <label for="publicationDate">Publication Date</label>

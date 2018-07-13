@@ -5,7 +5,7 @@
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-<form action="admin.php?action=login" method="post">
+<form name="login_form" action="admin.php?action=login" method="post">
   <input type="hidden" name="login" value="true" />
 
 <?php if ( isset( $results['errorMessage'] ) ) { ?>

@@ -75,8 +75,19 @@ function newArticle() {
   $results['formAction'] = "newArticle";
 
   if ( isset( $_POST['saveChanges'] ) ) {
+    $target='uploads/'.basename($_FILES['myimage']['name']);
 
+if(move_uploaded_file($_FILES['myimage']['tmp_name'],$target)) {
+
+     //Insert into your db
+
+     //$fp = fopen($target, "r");
+     //var_dump($target);die;
+}
+//var_dump($_FILES["myimage"]["name"]);die;
     // User has posted the article edit form: save the new article
+$_POST['myimage']=$target;
+//print_r($_POST);die;
     $article = new Article;
     $article->storeFormValues( $_POST );
     $article->insert();
@@ -110,7 +121,8 @@ function editArticle() {
       header( "Location: admin.php?error=articleNotFound" );
       return;
     }
-
+    $_POST['myimage']='uploads/'.basename($_FILES['myimage']['name']);
+//print_r($_POST);die;
     $article->storeFormValues( $_POST );
     $article->update();
     header( "Location: admin.php?status=changesSaved" );
@@ -123,6 +135,7 @@ function editArticle() {
 
     // User has not posted the article edit form yet: display the form
     $results['article'] = Article::getById( (int)$_GET['articleId'] );
+    //print_r($results['article']);
     require( TEMPLATE_PATH . "/admin/editArticle.php" );
   }
 

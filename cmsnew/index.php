@@ -46,4 +46,4 @@ function homepage() {
 }
 
 ?>
-<?php include "templates/include/footer.php" ?>
+<?php //include "templates/include/footer.php" ?>

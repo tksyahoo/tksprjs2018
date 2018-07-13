@@ -1,5 +1,5 @@
 <?php //include "../include/header.php" ;
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cms/templates/include/header.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/cms/cmsnew//templates/include/header.php');
 ?>
 <div class="container">
 
@@ -9,7 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/cms/templates/include/header.php');
         <div class="col-md-8">
 
       <div id="adminHeader">
-        <h2>Widget News Admin</h2>
+        <h2>Blog Admin</h2>
         <div class="alert alert-success">You are logged in as <b><?php echo htmlspecialchars( $_SESSION['username']) ?></b>. <a href="admin.php?action=logout"?>Log out</a></div>
       </div>
 
@@ -32,7 +32,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/cms/templates/include/header.php');
 
 <?php foreach ( $results['articles'] as $article ) { ?>
 <div class="card mb-4">
-            <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
+  <img class="card-img-top" src="<?php echo "http://localhost/cms/cmsnew/".htmlspecialchars( $article->myimage )?>" alt="Card image cap">
+            
             <div class="card-body">
               <h2 class="card-title"><?php echo htmlspecialchars( $article->title )?></h2>
               <p class="card-text"><?php echo htmlspecialchars( $article->summary )?></p>
